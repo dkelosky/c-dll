@@ -1,0 +1,32 @@
+http://www.cprogramming.com/tutorial/shared-libraries-linux-gcc.html
+
+OLD NOTES:
+----------
+
+--get object
+gcc -c -Wall -Werror -fpic foo.c
+
+--make shared object
+gcc -shared -o libfoo.so foo.o
+
+--link shared object in my directory with main.c
+gcc -L/home/dan/dev/java -Wall -o test main.c -lfoo
+
+--must use rpath (Set at link time) or LD_LIBRARY_PATH
+gcc -L/home/dan/dev/java -Wl,-rpath=/home/dan/dev/java -Wall -o test main.c -lfoo
+
+NEW NOTES:
+----------
+# generate position independent code (fPIC)
+gcc -c -fPIC foo.c -o hello.o
+
+# make .so from .o
+gcc hello.o -shared -o libhello.so
+
+# combine steps
+gcc -shared -o libhello.so -fPIC hello.c
+
+# can add -Wall to get all warnings and -g for debugging info
+
+# link with shared object
+gcc -L/home/dan/dev/c/dll -Wl,-rpath=/home/dan/dev/c/dll -Wall -o main main.c -lfoo
